@@ -13,6 +13,7 @@
 		B75778A027AAB619006AFBDE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757789F27AAB619006AFBDE /* LoginView.swift */; };
 		B75778A227AAB621006AFBDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75778A127AAB621006AFBDE /* LoginViewController.swift */; };
 		B75778A727AABD43006AFBDE /* OnbordingContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75778A627AABD43006AFBDE /* OnbordingContainerViewController.swift */; };
+		B7E78A5527AD331400556A96 /* OnbordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E78A5427AD331400556A96 /* OnbordingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B757789F27AAB619006AFBDE /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B75778A127AAB621006AFBDE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B75778A627AABD43006AFBDE /* OnbordingContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingContainerViewController.swift; sourceTree = "<group>"; };
+		B7E78A5427AD331400556A96 /* OnbordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				B75778A627AABD43006AFBDE /* OnbordingContainerViewController.swift */,
+				B7E78A5427AD331400556A96 /* OnbordingViewController.swift */,
 			);
 			path = Onbording;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 				B757788C27AAB555006AFBDE /* AppDelegate.swift in Sources */,
 				B75778A727AABD43006AFBDE /* OnbordingContainerViewController.swift in Sources */,
 				B75778A027AAB619006AFBDE /* LoginView.swift in Sources */,
+				B7E78A5527AD331400556A96 /* OnbordingViewController.swift in Sources */,
 				B75778A227AAB621006AFBDE /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
