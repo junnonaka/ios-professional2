@@ -14,24 +14,43 @@ class OnbordingViewController:UIViewController{
     let imageView = UIImageView()
     let label = UILabel()
 
+    //初期化で使用する変数
+    let heroImageName:String
+    let titleText:String
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
         layout()
     }
-
+    
+    //初期化
+    init(heroImageName:String,titleText:String) {
+        self.heroImageName = heroImageName
+        self.titleText = titleText
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    //init時に必要になる
+    //何故か？：UIViewControllerから継承しているコンストラクタ(初期化)だから
+    //ストーリーボードを使う場合は必須
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
 extension OnbordingViewController{
     
     func style(){
+        view.backgroundColor = .systemBackground
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 20
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "delorean")
+        imageView.image = UIImage(named: heroImageName)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -39,7 +58,7 @@ extension OnbordingViewController{
         //デバイスのContentSizeCategoryに応じてフォントサイズを変更できるようにする
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
-        label.text = "Bankey is faster , easier to use , and has a brand new look and feel that will make you feel like you are back in 1989"
+        label.text = titleText
 
         }
     
