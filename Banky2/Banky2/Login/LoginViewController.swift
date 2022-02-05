@@ -7,11 +7,27 @@
 
 import UIKit
 
+//DummyViewControllerで使っているが、protocolはどこからでも参照出来るのでここでも問題ない
+protocol LogoutDelegate:AnyObject{
+    func didLogout()
+}
+
+
+protocol LoginViewControllerDelegate:AnyObject{
+    //func didLogin(_ sender: LoginViewController)//pass data
+    func didLogin()
+}
+
 class LoginViewController: UIViewController {
 
+    let titleLabel = UILabel()
+    let subTitleLabel = UILabel()
+    
     let loginView = LoginView()
     let signInButton = UIButton(type: .system)
     let errorMessageLabel = UILabel()
+    
+    weak var delegate:LoginViewControllerDelegate?
     
     //MVVMに通づる部分がある
     var userName:String?{
@@ -30,9 +46,31 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        signInButton.configuration?.showsActivityIndicator = false
+    }
 }
 extension LoginViewController{
     private func style(){
+        
+        view.backgroundColor = .systemBackground
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.text = "Bankey"
+        
+        subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subTitleLabel.textAlignment = .center
+        subTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        subTitleLabel.adjustsFontForContentSizeCategory = true
+        subTitleLabel.numberOfLines = 0
+        subTitleLabel.text = "Your premium source for all things banking!"
+
+        
         //falseにしないとAUtolayoutが機能しない
         loginView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -56,10 +94,28 @@ extension LoginViewController{
         
     }
     private func layout(){
+        view.addSubview(titleLabel)
+        view.addSubview(subTitleLabel)
         view.addSubview(loginView)
         view.addSubview(signInButton)
         view.addSubview(errorMessageLabel)
         //配列なので複数の制約を入れることができる
+        
+        //title
+        NSLayoutConstraint.activate([
+            subTitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        //subtitle
+        NSLayoutConstraint.activate([
+            loginView.topAnchor.constraint(equalToSystemSpacingBelow: subTitleLabel.bottomAnchor, multiplier: 3),
+            subTitleLabel.leadingAnchor.constraint(equalTo: loginView.leadingAnchor),
+            subTitleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
+        ])
+
+        
+        
         //LoginView
         NSLayoutConstraint.activate([
             //loginviewのY方向中央に配置
@@ -112,9 +168,10 @@ extension LoginViewController{
         }
         
         //今回の講義はバックエンドはやらないのでハードコーディングしている
-        if username == "jun" && password == "jun"{
+        if username == "Jun" && password == "jun"{
             //グルグルを表示させる
             signInButton.configuration?.showsActivityIndicator = true
+            delegate?.didLogin()
         }else{
             configureView(withMessage: "Incorrect username / password")
         }
