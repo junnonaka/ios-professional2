@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let loginViewController = LoginViewController()
     let onboardingContainerViewController = OnboardingContainerViewController()
-    let dummyViewController = DummyViewController()
     let mainViewController = MainViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -27,11 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         loginViewController.delegate = self
         onboardingContainerViewController.delegate = self
-        dummyViewController.logoutDelegate = self
-        //window?.rootViewController = loginViewController
-        window?.rootViewController = mainViewController
-        //window?.rootViewController = OnbordingViewController(heroImageName: "delorean", titleText: "Bankey is faster, easier to use, and has a brand new look and feel that will make you feel like you are back in the 80s.")
 
+        let vc = mainViewController
+        vc.setStatusBar()
+        
+        //NavigationBarを半透明でなくす
+        UINavigationBar.appearance().isTranslucent = false
+        //NavigationBarの色を変更
+        UINavigationBar.appearance().backgroundColor = appColor
+        
+        window?.rootViewController = vc
+        
         return true
         
     }
@@ -59,7 +64,7 @@ extension AppDelegate{
 extension AppDelegate:LoginViewControllerDelegate{
     func didLogin() {
         if LocalState.hasOnborded{
-            setRootViewController(dummyViewController)
+            setRootViewController(mainViewController)
         }else{
             setRootViewController(onboardingContainerViewController)
 
@@ -70,7 +75,7 @@ extension AppDelegate:LoginViewControllerDelegate{
 extension AppDelegate:OnboardingContainerViewControllerDelegate{
     func didFinishOnbording() {
         LocalState.hasOnborded = true
-        setRootViewController(dummyViewController)
+        setRootViewController(mainViewController)
         
     }
    

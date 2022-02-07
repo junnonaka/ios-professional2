@@ -45,6 +45,7 @@ class MainViewController: UITabBarController {
         let img = UIImage()
         navigationBar.shadowImage = img
         navigationBar.setBackgroundImage(img, for: .default)
+        //navigationBar.isHidden = true
         //透明にする
         navigationBar.isTranslucent = false
     }
@@ -58,12 +59,7 @@ class MainViewController: UITabBarController {
 }
 
 
-class AccountSummaryViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemGreen
-    }
-}
+
 class MoveMoneyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
