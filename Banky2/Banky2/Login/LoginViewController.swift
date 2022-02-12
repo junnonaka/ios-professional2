@@ -168,7 +168,7 @@ extension LoginViewController{
         }
         
         //今回の講義はバックエンドはやらないのでハードコーディングしている
-        if username == "Jun" && password == "jun"{
+        if username == " " && password == " "{
             //グルグルを表示させる
             signInButton.configuration?.showsActivityIndicator = true
             delegate?.didLogin()

@@ -27,17 +27,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loginViewController.delegate = self
         onboardingContainerViewController.delegate = self
 
-        let vc = mainViewController
-        vc.setStatusBar()
+        displayLogin()
+        return true
         
+    }
+    private func displayLogin(){
+        setRootViewController(loginViewController)
+    }
+    
+    private func displayNextScreen(){
+        if LocalState.hasOnborded{
+            prepMainView()
+            setRootViewController(mainViewController)
+        }else{
+            setRootViewController(onboardingContainerViewController)
+        }
+    }
+    
+    private func prepMainView(){
+        mainViewController.setStatusBar()
         //NavigationBarを半透明でなくす
         UINavigationBar.appearance().isTranslucent = false
         //NavigationBarの色を変更
         UINavigationBar.appearance().backgroundColor = appColor
-        
-        window?.rootViewController = vc
-        
-        return true
         
     }
 }
@@ -60,26 +72,24 @@ extension AppDelegate{
         
     }
 }
-
+//LoginViewControllerのDelegateメソッド
 extension AppDelegate:LoginViewControllerDelegate{
     func didLogin() {
-        if LocalState.hasOnborded{
-            setRootViewController(mainViewController)
-        }else{
-            setRootViewController(onboardingContainerViewController)
-
-        }
+        displayNextScreen()
     }
 }
 
+//OnboardingContainerViewControllerのDelegateメソッド
 extension AppDelegate:OnboardingContainerViewControllerDelegate{
     func didFinishOnbording() {
         LocalState.hasOnborded = true
+        prepMainView()
         setRootViewController(mainViewController)
         
     }
    
 }
+//LoginViewControllerのDelegateメソッド
 extension AppDelegate:LogoutDelegate{
     func didLogout() {
         setRootViewController(loginViewController)
