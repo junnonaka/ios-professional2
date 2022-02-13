@@ -191,7 +191,7 @@ extension LoginViewController{
         }
         
         //今回の講義はバックエンドはやらないのでハードコーディングしている
-        if username == " " && password == " "{
+        if username == "Jun" && password == "jun"{
             //グルグルを表示させる
             signInButton.configuration?.showsActivityIndicator = true
             delegate?.didLogin()
@@ -204,6 +204,26 @@ extension LoginViewController{
     private func configureView(withMessage message:String){
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
+        shakeButton()
+    }
+    
+    private func shakeButton(){
+        let animation = CAKeyframeAnimation()
+        //適用するプロパティを選択
+        animation.keyPath = "position.x"
+        //適用する値を入れる：辞書型で入れられるので振動などもこれで表現可能
+        animation.values = [0,10,-10,10,0]
+        //valuesに対しての実行時間を辞書型で与える
+        animation.keyTimes = [0,0.16,0.5,0.83,1]
+        //持続時間を設定
+        animation.duration = 0.4
+        //これを入れるとアニメーションを追加するプロパティに対して、ベースプロパティに入れるかどうかを選ぶことが出来る
+        //これを入れないと上記のvaluesがそのままposition.xに反映されるがこれを入れると、ベースプロパティに対しての変化として入れられる。
+        //これは非常に重要
+        animation.isAdditive = true
+        //CALayerにアニメーションを追加する
+        signInButton.layer.add(animation, forKey: "shake")
+        
     }
 }
 
