@@ -9,6 +9,11 @@ import UIKit
 
 class AccountSummaryViewController: UIViewController {
    
+    lazy var logoutBarButtonItem:UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
+        barButtonItem.tintColor = .label
+        return barButtonItem
+    }()
     var accounts:[AccountSummaryCell.ViewModel] = []
    
     //インスタンス化
@@ -17,6 +22,11 @@ class AccountSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar(){
+        navigationItem.rightBarButtonItem = logoutBarButtonItem
     }
 }
 
@@ -119,5 +129,10 @@ extension AccountSummaryViewController {
         accounts.append(masterCard)
         accounts.append(investment1)
         accounts.append(investment2)
+    }
+}
+extension AccountSummaryViewController{
+    @objc func logoutButtonTapped(){
+        NotificationCenter.default.post(name: .logout, object: nil)
     }
 }
