@@ -38,6 +38,15 @@ class LoginViewController: UIViewController {
         return loginView.passwordTextField.text
     }
     
+    //animation
+    var leadingEdgeOnScreen:CGFloat = 16
+    var leadingEdgeOffScreen:CGFloat = -1000
+    // titleの左側の制約を変数として取得
+    var titleLeadingAnchor:NSLayoutConstraint?
+
+    // subTitleの左側の制約
+    var subTitleLeadingAnchor:NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,9 +56,15 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         signInButton.configuration?.showsActivityIndicator = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animate()
     }
 }
 extension LoginViewController{
@@ -62,6 +77,7 @@ extension LoginViewController{
         titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.text = "Bankey"
+        titleLabel.alpha = 0
         
         subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subTitleLabel.textAlignment = .center
@@ -69,6 +85,7 @@ extension LoginViewController{
         subTitleLabel.adjustsFontForContentSizeCategory = true
         subTitleLabel.numberOfLines = 0
         subTitleLabel.text = "Your premium source for all things banking!"
+        subTitleLabel.alpha = 0
 
         
         //falseにしないとAUtolayoutが機能しない
@@ -101,19 +118,25 @@ extension LoginViewController{
         view.addSubview(errorMessageLabel)
         //配列なので複数の制約を入れることができる
         
-        //title
+        
+        //title:activateされている制約
         NSLayoutConstraint.activate([
             subTitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
         ])
+        //title:アニメーションさせる制約
+        titleLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leadingEdgeOffScreen)
+        titleLeadingAnchor?.isActive = true
         
         //subtitle
         NSLayoutConstraint.activate([
             loginView.topAnchor.constraint(equalToSystemSpacingBelow: subTitleLabel.bottomAnchor, multiplier: 3),
-            subTitleLabel.leadingAnchor.constraint(equalTo: loginView.leadingAnchor),
+            //subTitleLabel.leadingAnchor.constraint(equalTo: loginView.leadingAnchor),
             subTitleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
         ])
 
+        subTitleLeadingAnchor = subTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leadingEdgeOffScreen)
+        subTitleLeadingAnchor?.isActive = true
         
         
         //LoginView
@@ -181,5 +204,28 @@ extension LoginViewController{
     private func configureView(withMessage message:String){
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
+    }
+}
+
+extension LoginViewController{
+
+    private func animate(){
+        let duration = 1.0
+        let animator1 = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
+            self.titleLeadingAnchor?.constant = self.leadingEdgeOnScreen
+            self.subTitleLeadingAnchor?.constant = self.leadingEdgeOnScreen
+            //レイアウトを変更する必要がある場合に実行させる：必ず必要
+            self.view.layoutIfNeeded()
+        }
+        animator1.startAnimation()
+        
+        let animator3 = UIViewPropertyAnimator(duration: duration*2, curve: .easeInOut) {
+            
+            self.titleLabel.alpha = 1
+            self.subTitleLabel.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+        animator3.startAnimation(afterDelay: 0.2)
+        
     }
 }
