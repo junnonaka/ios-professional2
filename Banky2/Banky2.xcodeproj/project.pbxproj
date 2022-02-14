@@ -19,6 +19,7 @@
 		B7C90C4F27B631A3003CD4A4 /* DecimelUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C90C4E27B631A3003CD4A4 /* DecimelUtil.swift */; };
 		B7C90C5127B631FA003CD4A4 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C90C5027B631FA003CD4A4 /* CurrencyFormatter.swift */; };
 		B7C90C6027B68977003CD4A4 /* CurrencyFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C90C5F27B68977003CD4A4 /* CurrencyFormatterTests.swift */; };
+		B7D79E9E27BA7F8E006156AD /* ShakeyBellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79E9D27BA7F8E006156AD /* ShakeyBellView.swift */; };
 		B7E78A5527AD331400556A96 /* OnbordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E78A5427AD331400556A96 /* OnbordingViewController.swift */; };
 		B7E78A5727AE5D8200556A96 /* DummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E78A5627AE5D8200556A96 /* DummyViewController.swift */; };
 		B7E78A5A27AE648200556A96 /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E78A5927AE648200556A96 /* LocalState.swift */; };
@@ -55,6 +56,7 @@
 		B7C90C5027B631FA003CD4A4 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		B7C90C5627B63FEE003CD4A4 /* Banky2UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Banky2UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C90C5F27B68977003CD4A4 /* CurrencyFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatterTests.swift; sourceTree = "<group>"; };
+		B7D79E9D27BA7F8E006156AD /* ShakeyBellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeyBellView.swift; sourceTree = "<group>"; };
 		B7E78A5427AD331400556A96 /* OnbordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingViewController.swift; sourceTree = "<group>"; };
 		B7E78A5627AE5D8200556A96 /* DummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewController.swift; sourceTree = "<group>"; };
 		B7E78A5927AE648200556A96 /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				B75778A527AABD15006AFBDE /* Onbording */,
 				B7E78A8327B136AF00556A96 /* AccountSummary */,
 				B7E78A5827AE646E00556A96 /* Utils */,
+				B7D79E9C27BA7F46006156AD /* Components */,
 				B75778A327AAB648006AFBDE /* Files */,
 				B757789927AAB556006AFBDE /* Info.plist */,
 			);
@@ -167,6 +170,14 @@
 				B7C90C5F27B68977003CD4A4 /* CurrencyFormatterTests.swift */,
 			);
 			path = Banky2UnitTests;
+			sourceTree = "<group>";
+		};
+		B7D79E9C27BA7F46006156AD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B7D79E9D27BA7F8E006156AD /* ShakeyBellView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		B7E78A5827AE646E00556A96 /* Utils */ = {
@@ -304,6 +315,7 @@
 				B7C90C4F27B631A3003CD4A4 /* DecimelUtil.swift in Sources */,
 				B75E3A7527B7F2AE00CE3BC8 /* NSNotificationName.swift in Sources */,
 				B7E78A5727AE5D8200556A96 /* DummyViewController.swift in Sources */,
+				B7D79E9E27BA7F8E006156AD /* ShakeyBellView.swift in Sources */,
 				B75778A727AABD43006AFBDE /* OnbordingContainerViewController.swift in Sources */,
 				B75778A027AAB619006AFBDE /* LoginView.swift in Sources */,
 				B7E78A5E27AF6D6B00556A96 /* MainViewController.swift in Sources */,
