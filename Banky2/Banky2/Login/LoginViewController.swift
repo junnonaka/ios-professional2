@@ -76,7 +76,9 @@ extension LoginViewController{
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.text = "Bankey"
+//        titleLabel.text = "Bankey"
+        titleLabel.text = "テスト"
+
         titleLabel.alpha = 0
         
         subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +86,8 @@ extension LoginViewController{
         subTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         subTitleLabel.adjustsFontForContentSizeCategory = true
         subTitleLabel.numberOfLines = 0
-        subTitleLabel.text = "Your premium source for all things banking!"
+ //       subTitleLabel.text = "Your premium source for all things banking!"
+        subTitleLabel.text = "制約の変更によるアニメーション"
         subTitleLabel.alpha = 0
 
         
@@ -119,22 +122,23 @@ extension LoginViewController{
         //配列なので複数の制約を入れることができる
         
         
-        //title:activateされている制約
+        //タイトル:アニメーションさせない制約
         NSLayoutConstraint.activate([
             subTitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3),
             titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
+            
         ])
         //title:アニメーションさせる制約
         titleLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leadingEdgeOffScreen)
         titleLeadingAnchor?.isActive = true
         
-        //subtitle
+        //サブタイトル：アニメーションさせない制約
         NSLayoutConstraint.activate([
             loginView.topAnchor.constraint(equalToSystemSpacingBelow: subTitleLabel.bottomAnchor, multiplier: 3),
             //subTitleLabel.leadingAnchor.constraint(equalTo: loginView.leadingAnchor),
             subTitleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
         ])
-
+        //サブタイトル：アニメーションさせる制約
         subTitleLeadingAnchor = subTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leadingEdgeOffScreen)
         subTitleLeadingAnchor?.isActive = true
         
@@ -230,6 +234,7 @@ extension LoginViewController{
 extension LoginViewController{
 
     private func animate(){
+        //ラベルを移動させるアニメーション
         let duration = 1.0
         let animator1 = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
             self.titleLeadingAnchor?.constant = self.leadingEdgeOnScreen
@@ -238,14 +243,14 @@ extension LoginViewController{
             self.view.layoutIfNeeded()
         }
         animator1.startAnimation()
-        
-        let animator3 = UIViewPropertyAnimator(duration: duration*2, curve: .easeInOut) {
+        //透過度を変化させるアニメーション
+        let animator2 = UIViewPropertyAnimator(duration: duration*2, curve: .easeInOut) {
             
             self.titleLabel.alpha = 1
             self.subTitleLabel.alpha = 1
             self.view.layoutIfNeeded()
         }
-        animator3.startAnimation(afterDelay: 0.2)
+        animator2.startAnimation(afterDelay: 0.2)
         
     }
 }

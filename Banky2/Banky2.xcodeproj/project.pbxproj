@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B72CB63E27BFDA2D00F344F8 /* Date+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72CB63D27BFDA2D00F344F8 /* Date+Util.swift */; };
+		B72CB64027BFDBA000F344F8 /* AccountSummaryViewController+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72CB63F27BFDBA000F344F8 /* AccountSummaryViewController+Networking.swift */; };
 		B757788C27AAB555006AFBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757788B27AAB555006AFBDE /* AppDelegate.swift */; };
 		B757789527AAB556006AFBDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B757789427AAB556006AFBDE /* Assets.xcassets */; };
 		B757789827AAB556006AFBDE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B757789627AAB556006AFBDE /* LaunchScreen.storyboard */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B72CB63D27BFDA2D00F344F8 /* Date+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Util.swift"; sourceTree = "<group>"; };
+		B72CB63F27BFDBA000F344F8 /* AccountSummaryViewController+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountSummaryViewController+Networking.swift"; sourceTree = "<group>"; };
 		B757788827AAB555006AFBDE /* Banky2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Banky2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B757788B27AAB555006AFBDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B757789427AAB556006AFBDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 				B7E78A5B27AF599900556A96 /* UIViewController+Utils.swift */,
 				B7C90C5027B631FA003CD4A4 /* CurrencyFormatter.swift */,
 				B75E3A7427B7F2AE00CE3BC8 /* NSNotificationName.swift */,
+				B72CB63D27BFDA2D00F344F8 /* Date+Util.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -197,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				B7E78A8427B136D700556A96 /* AccountSummaryViewController.swift */,
+				B72CB63F27BFDBA000F344F8 /* AccountSummaryViewController+Networking.swift */,
 				B7C90C4627B2A056003CD4A4 /* Header */,
 				B7C90C4727B2A073003CD4A4 /* Cells */,
 			);
@@ -320,8 +326,10 @@
 				B75778A027AAB619006AFBDE /* LoginView.swift in Sources */,
 				B7E78A5E27AF6D6B00556A96 /* MainViewController.swift in Sources */,
 				B7E78A8527B136D700556A96 /* AccountSummaryViewController.swift in Sources */,
+				B72CB63E27BFDA2D00F344F8 /* Date+Util.swift in Sources */,
 				B7E78A5527AD331400556A96 /* OnbordingViewController.swift in Sources */,
 				B75778A227AAB621006AFBDE /* LoginViewController.swift in Sources */,
+				B72CB64027BFDBA000F344F8 /* AccountSummaryViewController+Networking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

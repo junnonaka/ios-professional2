@@ -8,14 +8,16 @@
 import Foundation
 import UIKit
 
+//viewModelで使う
+enum AccountType:String,Codable{
+    case Banking
+    case CreditCard
+    case Investment
+}
+
 class AccountSummaryCell:UITableViewCell{
     
-    //viewModelで使う
-    enum AccountType:String{
-        case Banking
-        case CreditCard
-        case Investment
-    }
+
     
     //ViewModel定義
     struct ViewModel{
