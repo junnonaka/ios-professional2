@@ -31,20 +31,19 @@ class AccountSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        setupNavigationBar()
+       
     }
     
-    func setupNavigationBar(){
-        navigationItem.rightBarButtonItem = logoutBarButtonItem
-    }
+
 }
 
 extension AccountSummaryViewController {
     private func setup() {
+        setupNavigationBar()
         setupTableView()
         setupTableViewHeaderView()
 //        fetchAccounts()
-        fetchDataAndLoadViews()
+        fetchData()
     }
     
     private func setupTableView() {
@@ -83,6 +82,9 @@ extension AccountSummaryViewController {
         tableView.tableHeaderView = headerView
     }
 
+    func setupNavigationBar(){
+        navigationItem.rightBarButtonItem = logoutBarButtonItem
+    }
 }
 
 //datasourceプロトコル
@@ -147,7 +149,13 @@ extension AccountSummaryViewController{
 
 //MARK: - Networking
 extension AccountSummaryViewController{
-    private func fetchDataAndLoadViews(){
+    
+    
+    private func fetchData(){
+        //①group作成
+        let group = DispatchGroup()
+        //②groupに追加
+        group.enter()
         fetchProfile(forUserId: "1") { result in
             switch result{
             case .success(let profile):
@@ -157,10 +165,14 @@ extension AccountSummaryViewController{
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            //groupに追加
+            group.leave()
         }
         //ハードコーディングされた関数
         //fetchAccounts()
         //ネットワークを使った関数に変更
+        //②groupに追加
+        group.enter()
         fetchAccounts(forUserId: "1") { result in
             switch result {
             case .success(let accounts):
@@ -170,6 +182,12 @@ extension AccountSummaryViewController{
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            //groupに追加
+            group.leave()
+        }
+        //③groupで全てが完了したら実行させる
+        group.notify(queue: .main) {
+            self.tableView.reloadData()
         }
     }
     
