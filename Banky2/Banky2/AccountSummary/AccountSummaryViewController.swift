@@ -17,10 +17,13 @@ class AccountSummaryViewController: UIViewController {
     var headerViewModel = AccountSummaryHeaderView.ViewModel(welcomeMessage: "welcome", name: "", date: Date())
     var accountCellViewModels:[AccountSummaryCell.ViewModel] = []
    
+    //Components
     //インスタンス化
     var tableView = UITableView()
     //ヘッダーを初期サイズ無しで初期化
     var headerView = AccountSummaryHeaderView(frame: .zero)
+    
+    let refreshControl = UIRefreshControl()
 
     lazy var logoutBarButtonItem:UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
@@ -42,6 +45,7 @@ extension AccountSummaryViewController {
         setupNavigationBar()
         setupTableView()
         setupTableViewHeaderView()
+        setupRefreshControl()
 //        fetchAccounts()
         fetchData()
     }
@@ -85,6 +89,13 @@ extension AccountSummaryViewController {
     func setupNavigationBar(){
         navigationItem.rightBarButtonItem = logoutBarButtonItem
     }
+    
+    private func setupRefreshControl(){
+        refreshControl.tintColor = appColor
+        refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    }
+
 }
 
 //datasourceプロトコル
@@ -141,11 +152,7 @@ extension AccountSummaryViewController: UITableViewDelegate {
 //        accountCellViewModels.append(investment2)
 //    }
 //}
-extension AccountSummaryViewController{
-    @objc func logoutButtonTapped(){
-        NotificationCenter.default.post(name: .logout, object: nil)
-    }
-}
+
 
 //MARK: - Networking
 extension AccountSummaryViewController{
@@ -154,9 +161,13 @@ extension AccountSummaryViewController{
     private func fetchData(){
         //①group作成
         let group = DispatchGroup()
+        
+        //Testing - random number selection
+        let userId = String(Int.random(in: 1..<4))
+        
         //②groupに追加
         group.enter()
-        fetchProfile(forUserId: "1") { result in
+        fetchProfile(forUserId: userId) { result in
             switch result{
             case .success(let profile):
                 self.profile = profile
@@ -173,7 +184,7 @@ extension AccountSummaryViewController{
         //ネットワークを使った関数に変更
         //②groupに追加
         group.enter()
-        fetchAccounts(forUserId: "1") { result in
+        fetchAccounts(forUserId: userId) { result in
             switch result {
             case .success(let accounts):
                 self.accounts = accounts
@@ -188,6 +199,8 @@ extension AccountSummaryViewController{
         //③groupで全てが完了したら実行させる
         group.notify(queue: .main) {
             self.tableView.reloadData()
+            //リフレッシュを完了させる
+            self.tableView.refreshControl?.endRefreshing()
         }
     }
     
@@ -201,5 +214,16 @@ extension AccountSummaryViewController{
         accountCellViewModels = accounts.map{
             AccountSummaryCell.ViewModel(accountType: $0.type, accountName: $0.name, balance: $0.amount)
         }
+    }
+}
+
+//MARK: - Actions
+extension AccountSummaryViewController{
+    @objc func logoutButtonTapped(){
+        NotificationCenter.default.post(name: .logout, object: nil)
+    }
+    
+    @objc func refreshContent(){
+        fetchData()
     }
 }
