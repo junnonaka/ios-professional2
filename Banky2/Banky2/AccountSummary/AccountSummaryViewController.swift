@@ -22,8 +22,9 @@ class AccountSummaryViewController: UIViewController {
     var tableView = UITableView()
     //ヘッダーを初期サイズ無しで初期化
     var headerView = AccountSummaryHeaderView(frame: .zero)
-    
     let refreshControl = UIRefreshControl()
+    
+    var isLoaded = false
 
     lazy var logoutBarButtonItem:UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
@@ -46,6 +47,7 @@ extension AccountSummaryViewController {
         setupTableView()
         setupTableViewHeaderView()
         setupRefreshControl()
+        setupSkeltons()
 //        fetchAccounts()
         fetchData()
     }
@@ -58,6 +60,8 @@ extension AccountSummaryViewController {
         
         //Cell自体にreuseIdentifierのプロパティを持たせると参照だけで済む
         tableView.register(AccountSummaryCell.self, forCellReuseIdentifier: AccountSummaryCell.reuseID)
+        tableView.register(SkeletonCell.self, forCellReuseIdentifier: SkeletonCell.reuseID)
+
         tableView.rowHeight = AccountSummaryCell.rowHeight
         //FooterはからのViewを入れる：非表示になる
         tableView.tableFooterView = UIView()
@@ -95,19 +99,41 @@ extension AccountSummaryViewController {
         refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
         tableView.refreshControl = refreshControl
     }
+    
+    private func setupSkeltons(){
+        let row = Account.makeSkelton()
+        //スケルトンローダーをaccountsに最初に入れておく
+        accounts = Array(repeating: row, count: 10)
+        configureTableCells(with: accounts)
+    }
 
 }
 
 //datasourceプロトコル
 extension AccountSummaryViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//        guard !accountCellViewModels.isEmpty else{ return UITableViewCell()}
+//
+//        let cell =  tableView.dequeueReusableCell(withIdentifier: AccountSummaryCell.reuseID, for: indexPath) as! AccountSummaryCell
+//        let account = accountCellViewModels[indexPath.row]
+//        //viewModelの設定
+//        cell.configure(with: account)
+//        return cell
+//    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard !accountCellViewModels.isEmpty else{ return UITableViewCell()}
-        
-        let cell =  tableView.dequeueReusableCell(withIdentifier: AccountSummaryCell.reuseID, for: indexPath) as! AccountSummaryCell
+        guard !accountCellViewModels.isEmpty else { return UITableViewCell() }
         let account = accountCellViewModels[indexPath.row]
-        //viewModelの設定
-        cell.configure(with: account)
+
+        //ロード中の場合はスケルトンローダーを表示
+        if isLoaded {
+            let cell = tableView.dequeueReusableCell(withIdentifier: AccountSummaryCell.reuseID, for: indexPath) as! AccountSummaryCell
+            cell.configure(with: account)
+            return cell
+        }
+        //ロードが完了していれば通常のセルを表示
+        let cell = tableView.dequeueReusableCell(withIdentifier: SkeletonCell.reuseID, for: indexPath) as! SkeletonCell
         return cell
     }
     
@@ -188,20 +214,26 @@ extension AccountSummaryViewController{
             switch result {
             case .success(let accounts):
                 self.accounts = accounts
-                self.configureTableCells(with: accounts)
-                self.tableView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
             }
             //groupに追加
             group.leave()
         }
+        
         //③groupで全てが完了したら実行させる
         group.notify(queue: .main) {
-            self.tableView.reloadData()
             //リフレッシュを完了させる
             self.tableView.refreshControl?.endRefreshing()
+            guard let profile = self.profile else{return}
+            //スケルトンローダー表示をやめさせる
+            self.isLoaded = true
+            self.tableView.reloadData()
+            self.configureTableHeaderView(with: profile)
+            self.configureTableCells(with: self.accounts)
+            
         }
+        
     }
     
     private func configureTableHeaderView(with profile:Profile){
@@ -223,7 +255,21 @@ extension AccountSummaryViewController{
         NotificationCenter.default.post(name: .logout, object: nil)
     }
     
+//    @objc func refreshContent(){
+//        fetchData()
+//    }
+    //リフレッシュでスケルトンローダーを表示する
     @objc func refreshContent(){
+        //データを一旦消去する
+        reset()
+        setupSkeltons()
+        tableView.reloadData()
         fetchData()
+    }
+    
+    private func reset(){
+        profile = nil
+        accounts = []
+        isLoaded = false
     }
 }
