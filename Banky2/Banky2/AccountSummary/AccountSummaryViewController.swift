@@ -24,6 +24,16 @@ class AccountSummaryViewController: UIViewController {
     var headerView = AccountSummaryHeaderView(frame: .zero)
     let refreshControl = UIRefreshControl()
     
+    //Networking
+    var profileManager:ProfileManageable = ProfileManager()
+    
+    //Error alert
+    lazy var errorAlert:UIAlertController = {
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        return alert
+    }()
+    
     var isLoaded = false
 
     lazy var logoutBarButtonItem:UIBarButtonItem = {
@@ -191,9 +201,21 @@ extension AccountSummaryViewController{
         //Testing - random number selection
         let userId = String(Int.random(in: 1..<4))
         
+       
+        fetchAccount(group: group, userId: userId)
+        fetchProfile(group: group, userId: userId)
+        
+        //③groupで全てが完了したら実行させる
+        group.notify(queue: .main) {
+            self.reloadView()
+        }
+        
+    }
+    
+    private func fetchProfile(group:DispatchGroup,userId:String){
         //②groupに追加
         group.enter()
-        fetchProfile(forUserId: userId) { result in
+        profileManager.fetchProfile(forUserId: userId) { result in
             switch result{
             case .success(let profile):
                 self.profile = profile
@@ -205,9 +227,9 @@ extension AccountSummaryViewController{
             //groupに追加
             group.leave()
         }
-        //ハードコーディングされた関数
-        //fetchAccounts()
-        //ネットワークを使った関数に変更
+    }
+    
+    private func fetchAccount(group:DispatchGroup,userId:String){
         //②groupに追加
         group.enter()
         fetchAccounts(forUserId: userId) { result in
@@ -220,20 +242,17 @@ extension AccountSummaryViewController{
             //groupに追加
             group.leave()
         }
-        
-        //③groupで全てが完了したら実行させる
-        group.notify(queue: .main) {
-            //リフレッシュを完了させる
-            self.tableView.refreshControl?.endRefreshing()
-            guard let profile = self.profile else{return}
-            //スケルトンローダー表示をやめさせる
-            self.isLoaded = true
-            self.tableView.reloadData()
-            self.configureTableHeaderView(with: profile)
-            self.configureTableCells(with: self.accounts)
-            
-        }
-        
+    }
+    
+    private func reloadView() {
+        //リフレッシュを完了させる
+        self.tableView.refreshControl?.endRefreshing()
+        guard let profile = self.profile else{return}
+        //スケルトンローダー表示をやめさせる
+        self.isLoaded = true
+        self.tableView.reloadData()
+        self.configureTableHeaderView(with: profile)
+        self.configureTableCells(with: self.accounts)
     }
     
     private func configureTableHeaderView(with profile:Profile){
@@ -248,33 +267,45 @@ extension AccountSummaryViewController{
         }
     }
     
+
+    
     private func displayError(_ error:NetworkError){
+        
+        let titleAndMessage = titleAndMessage(for:error)
+        self.showErrorAlert(title: titleAndMessage.0, message: titleAndMessage.1)
+    }
+    
+    private func titleAndMessage(for error:NetworkError)->(String,String){
         let title:String
         let message:String
         //print(error.localizedDescription)
         switch error {
         case .serverError:
             title = "Server Error"
-            message = "Ensure you are connected to the internet. Please try again."
-        case .decodingError:
-            title = "Decodeing Error"
             message = "We could not process your request. Please try again."
+        case .decodingError:
+            title = "Network Error"
+            message = "Ensure you are connected to the internet. Please try again."
         }
-        self.showErrorAlert(title: title, message: message)
+        //tuple形式で返している
+        return (title,message)
     }
+    
     
     //アラート表示
     private func showErrorAlert(title:String,message:String) {
 
 
         
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
+//        let alert = UIAlertController(title: title,
+//                                      message: message,
+//                                      preferredStyle: .alert)
+//
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        errorAlert.title = title
+        errorAlert.message = message
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
+        present(errorAlert, animated: true, completion: nil)
     }
 }
 
@@ -300,5 +331,16 @@ extension AccountSummaryViewController{
         profile = nil
         accounts = []
         isLoaded = false
+    }
+}
+
+//MARK: - Unit testing　※private関数をテストするためにprivateではないものからアクセスできるようにしている
+extension AccountSummaryViewController{
+    func titleAndMessageForTesting(for error: NetworkError) -> (String,String){
+        return titleAndMessage(for: error)
+    }
+    
+    func forceFetchProfile(){
+        fetchProfile(group: DispatchGroup(), userId: "1")
     }
 }
