@@ -15,7 +15,7 @@ class PasswordCriteriaView:UIView{
     
     let checkmarkImage = UIImage(systemName: "checkmark.circle")!.withTintColor(.systemGreen,renderingMode: .alwaysOriginal)
     let xmarkImage = UIImage(systemName: "xmark.circle")!.withTintColor(.systemGreen,renderingMode: .alwaysOriginal)
-    let circleemarkImage = UIImage(systemName: "circle")!.withTintColor(.systemGreen,renderingMode: .alwaysOriginal)
+    let circleemarkImage = UIImage(systemName: "circle")!.withTintColor(.secondaryLabel,renderingMode: .alwaysOriginal)
 
     var isCriteriaMet:Bool = false{
         didSet{
@@ -65,7 +65,7 @@ extension PasswordCriteriaView{
         stackView.spacing = 8
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(systemName: "checkmark.circle")!.withTintColor(.tertiaryLabel,renderingMode: .alwaysOriginal)
+        imageView.image = circleemarkImage
 
         
         label.translatesAutoresizingMaskIntoConstraints = false

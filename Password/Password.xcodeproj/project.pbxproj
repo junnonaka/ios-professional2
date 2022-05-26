@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B7192027283A3CD90046A53F /* PasswordCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7192026283A3CD90046A53F /* PasswordCriteria.swift */; };
 		B74833B528277FD4005BABA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74833B428277FD4005BABA5 /* AppDelegate.swift */; };
 		B74833B928277FD4005BABA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74833B828277FD4005BABA5 /* ViewController.swift */; };
 		B74833BE28277FD5005BABA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B74833BD28277FD5005BABA5 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B7192026283A3CD90046A53F /* PasswordCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCriteria.swift; sourceTree = "<group>"; };
 		B74833B128277FD4005BABA5 /* Password.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Password.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B74833B428277FD4005BABA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B74833B828277FD4005BABA5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			children = (
 				B74833C828278084005BABA5 /* Files */,
 				B74833B428277FD4005BABA5 /* AppDelegate.swift */,
+				B7192026283A3CD90046A53F /* PasswordCriteria.swift */,
 				B74833B828277FD4005BABA5 /* ViewController.swift */,
 				B74833C92827845A005BABA5 /* PasswordTextField.swift */,
 				B74833CB2829447C005BABA5 /* PasswordStatusView */,
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B74833B928277FD4005BABA5 /* ViewController.swift in Sources */,
+				B7192027283A3CD90046A53F /* PasswordCriteria.swift in Sources */,
 				B74833B528277FD4005BABA5 /* AppDelegate.swift in Sources */,
 				B74833CF28294514005BABA5 /* PasswordCriteriaView.swift in Sources */,
 				B74833D1282A98C2005BABA5 /* PasswordStatusView.swift in Sources */,
